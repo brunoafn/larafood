@@ -14,6 +14,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('admin')->namespace('Admin')->group(function(){
+
+    //rotas de permissões
+    Route::any('permissions/search', 'ACL\PermissionController@search')->name('permissions.search');
+    Route::resource('permissions', 'ACL\PermissionController');
+
+    //rotas de perfils
+    Route::any('profiles/search', 'ACL\ProfileController@search')->name('profiles.search');
+    Route::resource('profiles', 'ACL\ProfileController');
+
     //rotas de detalhes dos planos
     Route::get('plans/{url}/details/create', 'DetailPlanController@create')->name('details.plan.create');
     Route::delete('plans/{url}/details/{idDetail}', 'DetailPlanController@destroy')->name('details.plan.destroy');

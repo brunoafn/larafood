@@ -211,6 +211,19 @@ return [
         [
             'text' => 'Plano',
             'url'  => 'admin/plans',
+            'icon' => 'fas fa-file-contract',
+        ],
+
+        [
+            'text' => 'Perfil',
+            'url'  => 'admin/profiles',
+            'icon' => 'fas fa-user',
+        ],
+
+        [
+            'text' => 'Permissões',
+            'url'  => 'admin/permissions',
+            'icon' => 'fas fa-lock',
         ],
     ],
 
