@@ -15,8 +15,18 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->namespace('Admin')->group(function(){
 
+    //rotas de permissões x profiles  profiles.permissions.profiles
+    Route::get('profiles/{id}/permission/{idPermission}/detach', 'ACL\PermissionProfileController@detachPermissionProfile')->name('profiles.permissions.detach');
+    Route::get('profiles/{id}/permissions', 'ACL\PermissionProfileController@permissions')->name('profiles.permissions');
+    Route::any('profiles/{id}/permissions/create', 'ACL\PermissionProfileController@permissionsAvailable')->name('profiles.permissions.available');
+    // Route::get('profiles/{id}/permissions/create/search', 'ACL\PermissionProfileController@filterPermissionsAvailable')->name('profiles.permissions.available.search');
+    Route::post('profiles/{id}/permissions/store', 'ACL\PermissionProfileController@attachPermissionsProfile')->name('profiles.permissions.attach');
+
+
     //rotas de permissões
     Route::any('permissions/search', 'ACL\PermissionController@search')->name('permissions.search');
+    Route::get('permissions/{id}/profiles', 'ACL\PermissionProfileController@profiles')->name('profiles.permissions.profiles');
+
     Route::resource('permissions', 'ACL\PermissionController');
 
     //rotas de perfils

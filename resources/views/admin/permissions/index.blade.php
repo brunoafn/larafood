@@ -26,7 +26,7 @@
                 <thead>
                     <tr>
                         <th>Nome</th>
-                        <th width="250">Ações</th>
+                        <th width="450">Ações</th>
                     </tr>
                 <thead>
                 <tbody>
@@ -39,6 +39,8 @@
                                 {{-- <a href="{{route('details.plan.index',$plan->url)}}"class="btn btn-info">Detalhes</a> --}}
                                 <a href="{{route('permissions.edit',$permission->id)}}"class="btn btn-success">Editar</a>
                                 <a href="{{route('permissions.show',$permission->id)}}"class="btn btn-warning">Ver</a>
+                                <a href="{{route('profiles.permissions.profiles',$permission->id)}}"class="btn btn-info">Perfis com esta Permissão</a>
+
                             </td>
                         </tr>
                     @endforeach
