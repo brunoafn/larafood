@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('admin')->namespace('Admin')->group(function(){
+Route::prefix('admin')->namespace('Admin')->middleware('auth')->group(function(){
 
     //rotas de permissões x profiles  profiles.permissions.profiles
     Route::get('profiles/{id}/permission/{idPermission}/detach', 'ACL\PermissionProfileController@detachPermissionProfile')->name('profiles.permissions.detach');
@@ -22,6 +22,13 @@ Route::prefix('admin')->namespace('Admin')->group(function(){
     // Route::get('profiles/{id}/permissions/create/search', 'ACL\PermissionProfileController@filterPermissionsAvailable')->name('profiles.permissions.available.search');
     Route::post('profiles/{id}/permissions/store', 'ACL\PermissionProfileController@attachPermissionsProfile')->name('profiles.permissions.attach');
 
+    //rotas de planos x profiles  profiles.plans.profiles
+    Route::get('plans/{id}/profile/{idProfile}/detach', 'ACL\PlanProfileController@detachProfilePlan')->name('plans.profiles.detach');
+    Route::get('plans/{id}/profiles', 'ACL\PlanProfileController@profiles')->name('plans.profiles');
+    Route::any('plans/{id}/profiles/create', 'ACL\PlanProfileController@profilesAvailable')->name('plans.profiles.available');
+    // Route::get('plans/{id}/profiles/create/search', 'ACL\profileProfileController@filterprofilesAvailable')->name('plans.profiles.available.search');
+    Route::post('plans/{id}/profiles', 'ACL\PlanProfileController@attachProfilesPlan')->name('plans.profiles.attach');
+    Route::get('profiles/{id}/plans', 'ACL\PlanProfileController@plans')->name('profiles.plans');
 
     //rotas de permissões
     Route::any('permissions/search', 'ACL\PermissionController@search')->name('permissions.search');
@@ -56,6 +63,8 @@ Route::prefix('admin')->namespace('Admin')->group(function(){
 
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'Site\SiteController@index')->name('site.home');
+
+Auth::routes();
+
+
