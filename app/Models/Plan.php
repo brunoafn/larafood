@@ -12,6 +12,10 @@ class Plan extends Model
         return $this->hasMany(DetailPlan::class);
     }
 
+    public function companies(){
+        return $this->hasMany(Company::class);
+    }
+
     //get profiles
     public function profiles(){
         return $this->belongsToMany(Profile::class);

@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -54,6 +55,8 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'cnpj'  => ['required', 'unique:companies'],
+            // 'empresa'  => ['required', 'unique:companies, name'],
         ]);
     }
 
@@ -65,10 +68,31 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
+        // return User::create([
+        //     'name' => $data['name'],
+        //     'email' => $data['email'],
+        //     'password' => Hash::make($data['password']),
+        // ]);
+
+       if(!$plan = session('plan')){
+           return redirect()->route('site.home');
+       }
+
+       $companie = $plan->companies()->create([
+            'cnpj' => $data['cnpj'],
+            'name' => $data['empresa'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+            'url' => Str::kebab($data['empresa']),
+            'subscription' => now(),
+            'expires_at' => now()->addDays(7),
+       ]);
+
+       $user = $companie->users()->create([
+            'name' => $data['empresa'],
+            'email' => $data['email'],
+            'password' => bcrypt($data['password']),
+       ]);
+
+       return $user;
     }
 }
