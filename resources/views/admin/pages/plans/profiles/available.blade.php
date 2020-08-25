@@ -40,7 +40,7 @@
                                 <input type="checkbox" name="profiles[]" value="{{$profile->id}}" id="">
                             </td>
                             <td>
-                                {{$profiles->name}}
+                                {{$profile->name}}
                             </td>
                         </tr>
                         @endforeach
@@ -54,13 +54,13 @@
                 <tbody>
             </table>
         </div>
-        <div class="card-footer">
+        {{-- <div class="card-footer">
             @if(isset($filters))
                 {!! $profiless ?? ''->appends($filters)->links() !!}
             @else
                 {!! $profiless ?? ''->links() !!}
             @endif
-        </div>
+        </div> --}}
     </div>
 </div>
 @stop

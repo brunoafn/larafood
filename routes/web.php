@@ -15,6 +15,22 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->namespace('Admin')->middleware('auth')->group(function(){
 
+    //rotas de users
+    Route::any('users/search', 'UserController@search')->name('users.search');
+    Route::resource('users', 'UserController');
+
+    //rotas de produtos
+    Route::any('products/search', 'ProductController@search')->name('products.search');
+    Route::resource('products', 'ProductController');
+
+    //rotas de profiles
+    Route::any('profiles/search', 'ProductController@search')->name('profiles.search');
+    Route::resource('profiles', 'ProductController');
+
+    //rotas de categories
+    Route::any('categories/search', 'CategoryController@search')->name('categories.search');
+    Route::resource('categories', 'CategoryController');
+
     //rotas de permissões x profiles  profiles.permissions.profiles
     Route::get('profiles/{id}/permission/{idPermission}/detach', 'ACL\PermissionProfileController@detachPermissionProfile')->name('profiles.permissions.detach');
     Route::get('profiles/{id}/permissions', 'ACL\PermissionProfileController@permissions')->name('profiles.permissions');

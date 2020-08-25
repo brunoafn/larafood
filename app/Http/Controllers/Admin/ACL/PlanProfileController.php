@@ -27,7 +27,7 @@ class PlanProfileController extends Controller
 
         $profiles = $plan->profiles()->paginate();
 
-        return view('admin.plans.profiles.profiles', compact('plan', 'profiles'));
+        return view('admin.pages.plans.profiles.profiles', compact('plan', 'profiles'));
 
     }
 
@@ -43,7 +43,7 @@ class PlanProfileController extends Controller
 
         $profiles =  $plan->profilesAvailable($request->filter);
 
-        return view('admin.plans.profiles.available', compact('plan', 'profiles', 'filters'));
+        return view('admin.pages.plans.profiles.available', compact('plan', 'profiles', 'filters'));
 
     }
 
@@ -61,7 +61,7 @@ class PlanProfileController extends Controller
 
         $plan->Profiles()->attach($request->Profiles);
 
-        return redirect()->route('plan.profiles', $plan->id);
+        return redirect()->route('plans.profiles', $plan->id);
 
     }
 

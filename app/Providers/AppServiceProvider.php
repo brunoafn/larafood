@@ -1,8 +1,18 @@
 <?php
 
 namespace App\Providers;
-use App\Models\Plan;
-use App\Observers\PlanObserver;
+use App\Models\{
+    Category,
+    Plan,
+    Company,
+    Product
+};
+use App\Observers\{
+    PlanObserver,
+    CompanyObserver,
+    CategoryObserver,
+    ProductObserver
+};
 
 use Illuminate\Support\ServiceProvider;
 
@@ -26,5 +36,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Plan::observe(PlanObserver::class);
+        Company::observe(CompanyObserver::class);
+        Category::observe(CategoryObserver::class);
+        Product::observe(ProductObserver::class);
     }
 }

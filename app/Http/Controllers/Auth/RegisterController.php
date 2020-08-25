@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Services\CompanyService;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -52,10 +53,11 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'cnpj'  => ['required', 'unique:companies'],
+            'name' => ['required', 'string', 'min:3', 'max:255'],
+            'email' => ['required', 'string', 'email', 'min:3', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:6', 'max:16', 'confirmed'],
+            'cnpj'  => ['required', 'numeric', 'min:14', 'max:14', 'unique:companies'],
+            'empresa' => ['required', 'string', 'min:3', 'max:255', 'unique:companies,name'],
             // 'empresa'  => ['required', 'unique:companies, name'],
         ]);
     }
@@ -77,21 +79,8 @@ class RegisterController extends Controller
        if(!$plan = session('plan')){
            return redirect()->route('site.home');
        }
-
-       $companie = $plan->companies()->create([
-            'cnpj' => $data['cnpj'],
-            'name' => $data['empresa'],
-            'email' => $data['email'],
-            'url' => Str::kebab($data['empresa']),
-            'subscription' => now(),
-            'expires_at' => now()->addDays(7),
-       ]);
-
-       $user = $companie->users()->create([
-            'name' => $data['empresa'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-       ]);
+       $companyService = app(CompanyService::class);
+       $user = $companyService->make($plan, $data);
 
        return $user;
     }
